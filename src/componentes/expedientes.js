@@ -41,6 +41,10 @@ export class Expediente extends Component {
             
     }
     render () {
+        function handleClick() {
+            history.push("/gastos");
+        }
+
         const {exps, isLoading, error} = this.state; 
         if ( error ) {
             return (
@@ -75,7 +79,9 @@ export class Expediente extends Component {
                   <td>{expediente.Estado_Descrip}</td>
                   <td>{expediente.caratula}</td>
                   <td>
-                      <Link to="/gastos">Gastos</Link>
+                    <button type="button" onClick={handleClick}>
+                        Gastos
+                    </button>
                   </td>
                 </tr>
               ))}
