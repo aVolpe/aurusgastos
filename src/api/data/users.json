@@ -1,0 +1,29 @@
+[
+  {
+    "email": "dan.abramov@facebook.com",
+    "firstName": "Dan",
+    "lastName": "Abramov",
+    "avatar": "https://pbs.twimg.com/profile_images/1166344766210150401/amRnWzl-_400x400.jpg",
+    "password": "$2a$10$ZwTUXnG.WJOlwN1bC9MPwuFjqGbdXgt6Ab1gKC1QUPr9Ri1hn8NDO",
+    "id": "66b5aeed-0ed9-49a6-bfee-0bbd5fe1b15c",
+    "createdAt": "2020-02-16T17:44:50.048Z"
+  },
+  {
+    "email": "kent@dodds.com",
+    "firstName": "Kent C.",
+    "lastName": "Dodds",
+    "avatar": "https://pbs.twimg.com/profile_images/759557613445001216/6M2E1l4q_400x400.jpg",
+    "password": "$2a$10$5FrEEmXOlv/6kKgr4EDbEuxtnRho.qGVBF6l6IiFPCh.cmN5.rssm",
+    "id": "acfee1b9-ef8c-4abd-a933-f75711a251c8",
+    "createdAt": "2020-02-16T17:48:04.736Z"
+  },
+  {
+    "email": "donald@trump.com",
+    "firstName": "Donald",
+    "lastName": "Trump",
+    "avatar": "https://pbs.twimg.com/profile_images/874276197357596672/kUuht00m_400x400.jpg",
+    "password": "$2a$10$.mI3d5gvJMHg87Z2KG/Gn.tmag0SdAZMzfXZK.N7kNLzWJbh.gK.6",
+    "id": "faa82c6a-abe9-4d14-87d8-a392ce4806c8",
+    "createdAt": "2020-02-16T17:52:12.720Z"
+  }
+]

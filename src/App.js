@@ -1,25 +1,39 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {Home} from './componentes/home';
+import {Expediente} from './componentes/expedientes';
+import {Gasto} from './componentes/gastos';
+
+import Login from './componentes/login';
+import {BrowserRouter, Route, Switch } from 'react-router-dom';
+import {Navigation} from './componentes/navigation';
+import {
+  IntlMixin, IntlProvider, 
+} from 'react-intl';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <IntlProvider locale="es">
+    <BrowserRouter>
+    <div className="container">
+        <h3 className="m-3 d-flex justify-content-center">
+          Aurus Software
+        </h3>
+        <h5 className="m-3 d-flex justify-content-center">
+        App de Gestión de Gastos Jurídicos
+        </h5>
+        <Navigation />
+        <Switch>
+          <Route path='/' component={Home} exact />
+          <Route path='/expedientes' component={Expediente} exact />
+          <Route path='/gastos' component={Gasto} exact />
+                  
+          
+        </Switch>
+      
     </div>
+    </BrowserRouter>
+    </IntlProvider>
   );
 }
 
