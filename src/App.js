@@ -10,11 +10,12 @@ import {Navigation} from './componentes/navigation';
 import {
   IntlMixin, IntlProvider, 
 } from 'react-intl';
+import history from './utils/history';
 
 function App() {
   return (
     <IntlProvider locale="es">
-    <BrowserRouter>
+    <BrowserRouter history={history}>
     <div className="container">
         <h3 className="m-3 d-flex justify-content-center">
           Aurus Software

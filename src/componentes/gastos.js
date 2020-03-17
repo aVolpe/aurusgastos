@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {Table} from 'react-bootstrap';
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { Router, Route, Switch, Link } from "react-router-dom";
 import { IntlMixin, FormattedDate, FormattedNumber, } from 'react-intl';
 
-const API_GASTOS = 'http://localhost:8080/gastos/exp/21';
+const API_GASTOS = 'http://localhost:8080/gastos/exp/';
 const DEFAULT_QUERY = '21';
 
 
@@ -12,25 +12,29 @@ export class Gasto extends Component {
 
     constructor(props) {
         super (props);
-        const {match} = props;
-              
-
+    
         this.state={
             gastos: [],
-            idExpediente: props.idExpediente,
+            idExpediente: this.props.location.state.idExpediente,
             isLoading: false,
             error: null,
         }
     }
 
     componentDidMount () {
+       
+        console.log("ComponentDidMount! ");
+        
+        console.log("Expediente: ", this.props.location.state.idExpediente);
         this.setState ( {isLoading: true});
+        this.setState ( {idExpediente: this.props.location.state.idExpediente});
 
         this.refeshList();
     }
 
     refeshList() {
-        fetch (API_GASTOS)
+        console.log(API_GASTOS + this.props.location.state.idExpediente);
+        fetch (API_GASTOS + this.props.location.state.idExpediente)
           .then(response=>  {
               if ( response.ok ) {
                   return response.json();
@@ -45,6 +49,8 @@ export class Gasto extends Component {
  
     render () {
         const {gastos, isLoading, error} = this.state; 
+        const { from } = this.props.location.state || { from: { pathname: "/" } };
+        console.log(this.props);
 
         // Sumamos el total de gastos actual
         // usamos 'reduce' para recorrer la lista de gastos y acumular

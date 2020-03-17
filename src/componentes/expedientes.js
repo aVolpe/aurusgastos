@@ -3,10 +3,9 @@ import {Table} from 'react-bootstrap'
 import Button from 'react-bootstrap/Button';
 import {Gasto} from './gastos';
 import { Link, useHistory } from 'react-router-dom';
+import history from '../utils/history';
 
-
-const API_ABOGADOS = 'http://localhost:8080/abogados/01/expedientes';
-const API_GASTOS = 'http://localhost:8080/gastos/exp/';
+const API_ABOGADOS = 'http://localhost:8080/abogados/21/expedientes';
 
 
 export class Expediente extends Component {
@@ -17,15 +16,18 @@ export class Expediente extends Component {
             exps: [],
             isLoading: false,
             error: null,
-
         };
-    } 
+        // Este enlace es necesario para hacer que `this` funcione en el callback
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    
 
     componentDidMount(){
         this.setState ( {isLoading: true});
 
         this.refreshList();
-        
+       
     }
     refreshList() {
         fetch (API_ABOGADOS)
@@ -38,14 +40,23 @@ export class Expediente extends Component {
               })
           .then(data => {this.setState ({exps: data, isLoading: false })})
           .catch(error => this.setState({error, isLoading: false}));
+           
+    }
+
+    handleClick (e) {
+       const idExpediente = e.target.dataset.id;
+       console.log("Aqui debe ir a gastos", idExpediente);
+       history.push( {pathname:'/gastos',
+            search:'',
+            state: {idExpediente: idExpediente}
+            });
             
     }
-    render () {
-        function handleClick() {
-            history.push("/gastos");
-        }
 
-        const {exps, isLoading, error} = this.state; 
+    render () {
+        
+
+        const {exps, isLoading, error} = this.state;
         if ( error ) {
             return (
                <p>Se produjo un error. {error.message}</p>
@@ -79,8 +90,11 @@ export class Expediente extends Component {
                   <td>{expediente.Estado_Descrip}</td>
                   <td>{expediente.caratula}</td>
                   <td>
-                    <button type="button" onClick={handleClick}>
+                    <button type="button" data-id={expediente.identificador}
+                       onClick={this.handleClick}>
                         Gastos
+                        {expediente.identificador}
+
                     </button>
                   </td>
                 </tr>
