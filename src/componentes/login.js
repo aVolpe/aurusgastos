@@ -72,8 +72,8 @@ export default function Login() {
 
     login({ user, password })
       .then(() => {
-        //history.push("/dashboard");
-        console.log("redirect to dashboards");
+        this.props.history.push("/");
+        console.log("redirigido a /");
       })
       .catch(err => {
         setErrors({ ...errors, login: err.message });

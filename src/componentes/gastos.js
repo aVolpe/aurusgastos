@@ -1,40 +1,37 @@
 import React, {Component} from 'react';
-import {Table} from 'react-bootstrap';
+import {Table, Button, ButtonToolbar} from 'react-bootstrap';
 import { Router, Route, Switch, Link } from "react-router-dom";
 import { IntlMixin, FormattedDate, FormattedNumber, } from 'react-intl';
+import {AddGastosModal} from './addgastosmodal';
 
 const API_GASTOS = 'http://localhost:8080/gastos/exp/';
-const DEFAULT_QUERY = '21';
 
 
 export class Gasto extends Component {
     
-
     constructor(props) {
         super (props);
+        console.log ('constructor');
     
         this.state={
             gastos: [],
-            idExpediente: this.props.location.state.idExpediente,
-            isLoading: false,
+            isLoading: true,
             error: null,
+            addModalShow: false,
+            id: props.match.params.id
         }
     }
 
     componentDidMount () {
-       
-        console.log("ComponentDidMount! ");
-        
-        console.log("Expediente: ", this.props.location.state.idExpediente);
-        this.setState ( {isLoading: true});
-        this.setState ( {idExpediente: this.props.location.state.idExpediente});
-
-        this.refeshList();
+            console.log(" estoy en gastos ComponentDidMount! ");
+            console.log("Expediente: ", JSON.stringify(this.props, null, 2));
+            this.refreshList();
+            
     }
 
-    refeshList() {
-        console.log(API_GASTOS + this.props.location.state.idExpediente);
-        fetch (API_GASTOS + this.props.location.state.idExpediente)
+    refreshList() {
+        console.log(API_GASTOS + this.state.id);
+        fetch (API_GASTOS + this.state.id)
           .then(response=>  {
               if ( response.ok ) {
                   return response.json();
@@ -49,19 +46,19 @@ export class Gasto extends Component {
  
     render () {
         const {gastos, isLoading, error} = this.state; 
-        const { from } = this.props.location.state || { from: { pathname: "/" } };
-        console.log(this.props);
+        let addModalClose =() => this.setState({addModalShow: false});
 
         // Sumamos el total de gastos actual
         // usamos 'reduce' para recorrer la lista de gastos y acumular
         //
+        console.log ('render');
+        let gastoIni = gastos[0];
         let TotalGastos = gastos.reduce((total, gasto) => {
                 total += gasto.monto; 
-                console.log("monto = ", gasto.monto) ;
-                console.log("total = ", total) ;
                 
                 return total; }, 0) 
         if ( error ) {
+            console.log ('error en el render');
             return (
             <p>Se produjo un error. {error.message}</p>
             );
@@ -70,20 +67,24 @@ export class Gasto extends Component {
             return (<p>Cargando datos...</p>) ;
         }
         return (
+            
             <div className="container">
                  <div className='mt-4'>
+                    <p>
+                        Causa: {gastoIni.caratula}
+                    </p>
                     Total de Gastos a la Fecha:   <FormattedNumber value={TotalGastos} /> 
                 </div>
                 
                 <Table className="mt-4" striped bordered hover size="sm">
                     <thead>
                     <tr>
-                        <th>Causa</th>
                         <th>Fecha</th>
                         <th>Monto</th>
-                        <th>Gasto</th>
+                        <th>Concepto</th>
                         <th>Nro. Factura</th>
                         <th>Proveedor</th>
+                        <th>Acciones</th>
                         
                     </tr>
                     </thead>
@@ -91,7 +92,6 @@ export class Gasto extends Component {
                     {gastos.map(gasto => (
                         
                         <tr key={gasto.identificador}>
-                        <td>{gasto.caratula}</td>
                         <td align="right">{
                             <FormattedDate
                             value={gasto.fecha}
@@ -107,13 +107,30 @@ export class Gasto extends Component {
                         <td>{gasto.TipoGasto_Descrip}</td>
                         <td>{gasto.facturanrostr}</td>
                         <td>{gasto.proveedor}</td>
-                  
+                        <td>
+                            Editar
+                        </td>   
                         </tr>
                         
                     ))}
                     </tbody>                    
                 </Table>
+                <ButtonToolbar>
+                    <Button variant="primary" onClick= {()=> this.setState({addModalShow: true})}
+                    >
+                        Agregar Gastos 
+                    </Button> 
+                    <AddGastosModal idExpediente={this.state.id}
+                      show={this.state.addModalShow}
+                      onClose={() => { 
+                          this.setState({ addModalShow: false });
+                          this.refreshList();
+                        }}
+                      onHide={addModalClose}
+                    />
+                </ButtonToolbar>
             </div>
+           
         );
     }
 }

@@ -15,25 +15,24 @@ import history from './utils/history';
 function App() {
   return (
     <IntlProvider locale="es">
-    <BrowserRouter history={history}>
-    <div className="container">
-        <h3 className="m-3 d-flex justify-content-center">
-          Aurus Software
-        </h3>
-        <h5 className="m-3 d-flex justify-content-center">
-        App de Gestión de Gastos Jurídicos
-        </h5>
-        <Navigation />
-        <Switch>
-          <Route path='/' component={Home} exact />
-          <Route path='/expedientes' component={Expediente} exact />
-          <Route path='/gastos' component={Gasto} exact />
-                  
+      <BrowserRouter>
+        <div className="container">
+            <h3 className="m-3 d-flex justify-content-center">
+              Aurus Software
+            </h3>
+            <h5 className="m-3 d-flex justify-content-center">
+              App de Gestión de Gastos Jurídicos
+            </h5>
+            <Navigation />
+            <Switch>
+              <Route path='/' component={Home} exact />
+              <Route path='/expedientes/:id/gastos' component={Gasto} exact />     
+              <Route path='/expedientes' component={Expediente} exact />
+                   
+            </Switch>
           
-        </Switch>
-      
-    </div>
-    </BrowserRouter>
+        </div>
+      </BrowserRouter>
     </IntlProvider>
   );
 }

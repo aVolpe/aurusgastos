@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Table} from 'react-bootstrap'
 import Button from 'react-bootstrap/Button';
-import {Gasto} from './gastos';
 import { Link, useHistory } from 'react-router-dom';
 import history from '../utils/history';
 
@@ -46,10 +45,7 @@ export class Expediente extends Component {
     handleClick (e) {
        const idExpediente = e.target.dataset.id;
        console.log("Aqui debe ir a gastos", idExpediente);
-       history.push( {pathname:'/gastos',
-            search:'',
-            state: {idExpediente: idExpediente}
-            });
+       this.props.history.push(`/expedientes/${idExpediente}/gastos`);
             
     }
 
@@ -91,7 +87,7 @@ export class Expediente extends Component {
                   <td>{expediente.caratula}</td>
                   <td>
                     <button type="button" data-id={expediente.identificador}
-                       onClick={this.handleClick}>
+                       onClick={this.handleClick}> 
                         Gastos
                         {expediente.identificador}
 
