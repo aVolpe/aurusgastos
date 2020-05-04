@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import {Home} from './componentes/home';
 import {Expediente} from './componentes/expedientes';
@@ -13,6 +13,16 @@ import {
 import history from './utils/history';
 
 function App() {
+  const [ loggedIn, setLoggedIn] = useState(false);
+
+  // si no se realizo el login enviar directo.
+  if ( ! loggedIn ) {
+    setLoggedIn ( true );
+
+    history.push("/login");
+    
+  }
+
   return (
     <IntlProvider locale="es">
       <BrowserRouter>
@@ -26,6 +36,7 @@ function App() {
             <Navigation />
             <Switch>
               <Route path='/' component={Home} exact />
+              <Route path='/login' component={Login} exact />
               <Route path='/expedientes/:id/gastos' component={Gasto} exact />     
               <Route path='/expedientes' component={Expediente} exact />
                    

@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import {Table} from 'react-bootstrap'
 import Button from 'react-bootstrap/Button';
-import { Link, useHistory } from 'react-router-dom';
-import history from '../utils/history';
 
-const API_ABOGADOS = 'http://localhost:8080/abogados/21/expedientes';
+const API_ABOGADOS = 'http://st.panalcobranzas.com.py:8082/abogados/';
+const API_EXPEDIENTE = '/expedientes';
 
 
 export class Expediente extends Component {
@@ -15,9 +14,12 @@ export class Expediente extends Component {
             exps: [],
             isLoading: false,
             error: null,
+            id: props.match.params.id
+            
         };
         // Este enlace es necesario para hacer que `this` funcione en el callback
         this.handleClick = this.handleClick.bind(this);
+        //console.log()
     }
 
     
@@ -86,12 +88,10 @@ export class Expediente extends Component {
                   <td>{expediente.Estado_Descrip}</td>
                   <td>{expediente.caratula}</td>
                   <td>
-                    <button type="button" data-id={expediente.identificador}
+                    <Button className="mr-2" variant="primary" data-id={expediente.identificador}
                        onClick={this.handleClick}> 
                         Gastos
-                        {expediente.identificador}
-
-                    </button>
+                    </Button>
                   </td>
                 </tr>
               ))}
